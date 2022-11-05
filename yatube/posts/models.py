@@ -18,12 +18,14 @@ class Post(models.Model):
         'Group',
         blank=True,
         null=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
+        related_name='posts',
         verbose_name='Сообщество')
 
     class Meta:
         verbose_name = "Пост"
         verbose_name_plural = "Посты"
+        ordering = ['-pub_date']
 
 
 class Group(models.Model):
@@ -31,9 +33,9 @@ class Group(models.Model):
     slug = models.SlugField(unique=True, verbose_name='Адрес')
     description = models.TextField(verbose_name='Описание')
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         verbose_name = "Группа"
         verbose_name_plural = "Группы"
+
+    def __str__(self):
+        return self.title
